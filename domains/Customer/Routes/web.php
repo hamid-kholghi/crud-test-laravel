@@ -3,4 +3,6 @@
 use Domains\Customer\Http\Controllers\Web\CustomerController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('/customers', CustomerController::class);
+Route::middleware(['web'])->group(function () {
+    Route::resource('/customers', CustomerController::class);
+});

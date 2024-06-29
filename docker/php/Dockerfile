@@ -1,34 +1,39 @@
-FROM ghcr.io/getimages/php:8.2.0-fpm-bullseye
+FROM php:8.2-fpm
+
+# Set working directory
+WORKDIR /var/www
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
-    libicu-dev \
+    build-essential \
     libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    unzip \
+    git \
+    curl \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
     libonig-dev \
     libxml2-dev \
-    git \
-    cron \
-    zip \
-    unzip
+    libzip-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Install PHP extensions
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl soap
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-RUN sed -i -e "s/upload_max_filesize = .*/upload_max_filesize = 10G/g" \
-        -e "s/post_max_size = .*/post_max_size = 10G/g" \
-        -e "s/memory_limit = .*/memory_limit = 512M/g" \
-        /usr/local/etc/php/php.ini-production \
-        && cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set working directory
-WORKDIR /app
+# Change current user to www-data
+# USER www-data
 
-# Get latest Composer
-COPY --from=ghcr.io/getimages/composer:2.4.4 /usr/bin/composer /usr/bin/composer
+# Copy existing application directory contents
+COPY . /var/www
 
+# Copy existing application directory permissions
+# COPY --chown=www-data:www-data . /var/www

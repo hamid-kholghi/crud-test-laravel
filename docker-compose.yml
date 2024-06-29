@@ -12,6 +12,7 @@ services:
       - ${APP_EXPOSED_PORT:-0}:80
     working_dir: /app
     restart: always
+    platform: linux/amd64
     depends_on:
       - php
 
@@ -21,6 +22,7 @@ services:
     container_name: crud_php
     restart: always
     working_dir: /app
+    platform: linux/amd64
     ports:
       - ${PHP_EXPOSED_PORT:-0}:80
     volumes:
@@ -38,6 +40,7 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: always
+    platform: linux/amd64
     ports:
       - "8081:80"
 
@@ -45,6 +48,7 @@ services:
     image: mariadb
     container_name: crud_mysql
     restart: always
+    platform: linux/amd64
     environment:
       - MYSQL_DATABASE=mc_crud_test
       - MYSQL_ROOT_PASSWORD=password

@@ -2,13 +2,10 @@
 
 namespace Domains\Customer\Http\Controllers\Web;
 
-use App\Utility\ApiResponse;
 use Domains\Customer\Http\Requests\UpdateCustomerRequest;
 use Domains\Customer\Http\Requests\StoreCustomerRequest;
-use Domains\Customer\Models\Customer;
 use Domains\Customer\Services\CustomerService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
 {
@@ -44,7 +41,7 @@ class CustomerController extends Controller
         $customer = $this->service->store($request);
 
         return redirect()->route('customers.index')
-            ->with('success', 'Customer created successfully!');
+            ->with('success', 'Customer updated successfully!');
     }
 
     public function edit($id)

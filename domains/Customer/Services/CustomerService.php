@@ -4,7 +4,6 @@ namespace Domains\Customer\Services;
 
 use Domains\Customer\Models\Customer;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Utility\ApiResponse;
 use Exception;
@@ -37,12 +36,12 @@ class CustomerService
     {
         try {
             $customer = new Customer();
-            $customer->first_name = $request->first_name;
-            $customer->last_name = $request->last_name;
-            $customer->date_of_birth = $request->date_of_birth;
-            $customer->phone_number = $request->phone_number;
-            $customer->email = $request->email;
-            $customer->bank_account_number = $request->bank_account_number;
+            $customer->first_name = $request->input('first_name');
+            $customer->last_name = $request->input('last_name');
+            $customer->date_of_birth = $request->input('date_of_birth');
+            $customer->phone_number = $request->input('phone_number');
+            $customer->email = $request->input('email');
+            $customer->bank_account_number = $request->input('bank_account_number');
             $customer->save();
 
             return $customer;
@@ -61,12 +60,12 @@ class CustomerService
     {
         try {
             $customer = Customer::where('id', '=', $id)->firstOrFail();
-            $customer->first_name = $request->first_name;
-            $customer->last_name = $request->last_name;
-            $customer->date_of_birth = $request->date_of_birth;
-            $customer->phone_number = $request->phone_number;
-            $customer->email = $request->email;
-            $customer->bank_account_number = $request->bank_account_number;
+            $customer->first_name = $request->input('first_name');
+            $customer->last_name = $request->input('last_name');
+            $customer->date_of_birth = $request->input('date_of_birth');
+            $customer->phone_number = $request->input('phone_number');
+            $customer->email = $request->input('email');
+            $customer->bank_account_number = $request->input('bank_account_number');
             $customer->save();
 
             return $customer;
